@@ -9,7 +9,7 @@
 			</th>
 			<th align="center" width="27%">
 				<h1><a href="https://softuni.bg/">SoftUni</a></h1>
-				<h3>Java Web<br>Development<br>Concentration</h3>
+				<h3>Python<br>Learning<br>Path</h3>
 					</th>
 					<th align="center" width="35%">
 						<p>
