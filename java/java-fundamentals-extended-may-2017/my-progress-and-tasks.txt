@@ -1,0 +1,25 @@
+-- To finish --
+--Data Types - Exercises--
+p17_Cypher_Roulette
+
+--Lists - More Exercises--
+p05_Note_Statistics
+p06_Winecraft
+
+--Array and List Algorithms - More Exercises--
+02. Binary Search
+03. Mirror Image
+04. Japanese Roulette
+05. Increasing Crisis
+06. Extremums
+
+--Nested Dictionaries-- LAB
+Check --->> p01_Average_Student_Grade
+
+--Nested Dictionaries-- Exercises
+Check --->> p03_Travel_Company (Time Limit)
+
+--RegEx-- Exercises
+Check --->> p08_Commits
+
+Exam PreparationV (in judge) finish p04_Hornet_Armada
