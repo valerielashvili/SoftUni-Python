@@ -1,12 +1,12 @@
-factor = int(input()) * -1
-count = int(input()) * -1
+factor = int(input())
+count = int(input())
 
 multiples = []
+i = factor
 
-if factor > 1:
-    multiples.append(factor)
-
-for i in range(factor, count + 1):
-    multiples.append(i * factor)
+while len(multiples) != count:
+    if i % factor == 0:
+        multiples.append(i)
+    i += 1
 
 print(multiples)
