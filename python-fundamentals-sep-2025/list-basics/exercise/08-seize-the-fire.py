@@ -29,7 +29,7 @@ for fire_cell in fire_cells:
         total_fire_extinguished += fire_range
         fire_cells_extinguished.append(fire_range)
 
-print(f"Cells:")
+print("Cells:")
 [print(f" - {cell}") for cell in fire_cells_extinguished]
 print(f"Effort: {effort:.2f}")
 print(f"Total Fire: {total_fire_extinguished}")
