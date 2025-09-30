@@ -1,5 +1,3 @@
-import pdb
-
 numbers = input().split()
 numbers = [int(num) for num in numbers]
 finish_line = len(numbers) // 2 + 1
@@ -15,7 +13,7 @@ for i in range(finish_line - 1):
 
     if time == 0:
         podracer_time *= 0.8
-#pdb.set_trace()
+
 for j in range(len(numbers) - 1, finish_line - 1, -1):
     time = int(numbers[j])
     flash_speeder_time += time
