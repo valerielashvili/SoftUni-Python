@@ -4,9 +4,6 @@ numbers = [int(n) for n in input().split()]
 tokens = input().split()
 command = tokens[0]
 
-greatest_num = -sys.maxsize
-smallest_num = sys.maxsize
-
 while command != 'end':
 
     if command == 'exchange':
@@ -19,6 +16,7 @@ while command != 'end':
             numbers = numbers[index:] + numbers[:index]
 
     elif command == 'max':
+        greatest_num = -sys.maxsize
         action = tokens[1]
 
         if action == 'even':
@@ -31,7 +29,7 @@ while command != 'end':
                 if numbers[j] % 2 == 1 and numbers[j] > greatest_num:
                     greatest_num = numbers[j]
         
-        if greatest_num <= 0:
+        if greatest_num < 0:
             print("No matches")
         else:
             if numbers.count(greatest_num) > 1:
@@ -43,6 +41,7 @@ while command != 'end':
         greatest_num = -sys.maxsize
 
     elif command == 'min':
+        smallest_num = sys.maxsize
         action = tokens[1]
 
         if action == 'even':
