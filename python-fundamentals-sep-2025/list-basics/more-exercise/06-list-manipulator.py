@@ -10,11 +10,12 @@ smallest_num = sys.maxsize
 while command != 'end':
 
     if command == 'exchange':
-        index = int(tokens[1]) + 1
+        index = int(tokens[1])
 
-        if index >= len(numbers) or index < 0:
+        if index > len(numbers) - 1 or index < 0:
             print("Invalid index")
         else:
+            index += 1
             numbers = numbers[index:] + numbers[:index]
 
     elif command == 'max':
@@ -22,46 +23,47 @@ while command != 'end':
 
         if action == 'even':
             for i in range(len(numbers)):
-                if i % 2 == 0 and numbers[i] > greatest_num:
+                if numbers[i] % 2 == 0 and numbers[i] > greatest_num:
                     greatest_num = numbers[i]
-            if greatest_num < 0:
-                print("No matches")
-            else:
-                rightmost_index = len(numbers) - 1 - numbers[::-1].index(greatest_num)
-                print(rightmost_index)
 
         elif action == 'odd':
-            for i in range(len(numbers)):
-                if i % 2 == 1 and numbers[i] > greatest_num:
-                    greatest_num = numbers[i]
-            if greatest_num < 0:
-                print("No matches")
-            else:
+            for j in range(len(numbers)):
+                if numbers[j] % 2 == 1 and numbers[j] > greatest_num:
+                    greatest_num = numbers[j]
+        
+        if greatest_num <= 0:
+            print("No matches")
+        else:
+            if numbers.count(greatest_num) > 1:
                 rightmost_index = len(numbers) - 1 - numbers[::-1].index(greatest_num)
                 print(rightmost_index)
+            else:
+                print(numbers.index(greatest_num))
+        
+        greatest_num = -sys.maxsize
 
     elif command == 'min':
         action = tokens[1]
 
         if action == 'even':
-            for i in range(len(numbers)):
-                if i % 2 == 0 and numbers[i] < smallest_num:
-                    smallest_num = numbers[i]
-            if smallest_num == sys.maxsize:
-                print("No matches")
-            else:
-                rightmost_index = len(numbers) - 1 - numbers[::-1].index(smallest_num)
-                print(rightmost_index)
-
+            for k in range(len(numbers)):
+                if numbers[k] % 2 == 0 and numbers[k] < smallest_num:
+                    smallest_num = numbers[k]
         elif action == 'odd':
-            for i in range(len(numbers)):
-                if i % 2 == 1 and numbers[i] < smallest_num:
-                    smallest_num = numbers[i]
-            if smallest_num == sys.maxsize:
-                print("No matches")
-            else:
+            for l in range(len(numbers)):
+                if numbers[l] % 2 == 1 and numbers[l] < smallest_num:
+                    smallest_num = numbers[l]
+
+        if smallest_num == sys.maxsize:
+            print("No matches")
+        else:
+            if numbers.count(smallest_num) > 1:
                 rightmost_index = len(numbers) - 1 - numbers[::-1].index(smallest_num)
                 print(rightmost_index)
+            else:
+                print(numbers.index(smallest_num))
+        
+        smallest_num = sys.maxsize
 
     elif command == 'first':
         action = tokens[2]
@@ -72,15 +74,17 @@ while command != 'end':
             print("Invalid count")
         else:
             if action == 'even':
-                for i in numbers:
-                    if i % 2 == 0:
-                        first_count_elements.append(numbers[i])
+                for num in numbers:
+                    if num % 2 == 0:
+                        first_count_elements.append(num)
             elif action == 'odd':
-                for i in numbers:
-                    if i % 2 == 1:
-                        first_count_elements.append(numbers[i])
+                for num in numbers:
+                    if num % 2 == 1:
+                        first_count_elements.append(num)
 
             print(first_count_elements[:count])
+        
+        first_count_elements = []
 
     elif command == 'last':
         action = tokens[2]
@@ -91,15 +95,17 @@ while command != 'end':
             print("Invalid count")
         else:
             if action == 'even':
-                for i in numbers:
-                    if i % 2 == 0:
-                        last_count_elements.append(numbers[i])
+                for n in numbers:
+                    if n % 2 == 0:
+                        last_count_elements.append(n)
             elif action == 'odd':
-                for i in numbers:
-                    if i % 2 == 1:
-                        last_count_elements.append(numbers[i])
+                for n in numbers:
+                    if n % 2 == 1:
+                        last_count_elements.append(n)
 
             print(last_count_elements[-count:])
+        
+        last_count_elements = []
 
     tokens = input().split()
     command = tokens[0]
