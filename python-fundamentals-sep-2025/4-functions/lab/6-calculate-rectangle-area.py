@@ -1,7 +1,7 @@
-width_input = int(input())
-height_input = int(input())
+width = int(input())
+height = int(input())
 
-def rectangle_area(width, height):
-    return width * height
+rectangle_area = lambda w, h: w * h
+result = rectangle_area(width, height)
 
-print(rectangle_area(width_input, height_input))
+print(result)
