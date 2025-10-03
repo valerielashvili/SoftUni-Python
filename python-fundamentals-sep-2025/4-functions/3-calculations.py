@@ -13,6 +13,7 @@ def solve(a, b, operator):
         result = a + b
     elif operator == 'subtract':
         result = a - b
+    
     return result
 
 print(solve(first_num, second_num, operator))
