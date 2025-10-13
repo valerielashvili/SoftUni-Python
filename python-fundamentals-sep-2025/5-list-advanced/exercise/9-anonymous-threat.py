@@ -6,45 +6,38 @@ while command != '3:1':
     command = tokens[0]
 
     if command == 'merge':
-        merged_string = ''
         start_index = int(tokens[1])
-        end_index = int(tokens[2]) + 1
+        end_index = int(tokens[2])
 
-        if start_index < 0:
-            start_index = 0
-        if end_index >= len(strings):
-            end_index = len(strings)
+        start_index = max(0, start_index)
+        end_index = min(len(strings) - 1, end_index)
 
-        for i in range(start_index, end_index):
-            merged_string += strings[i]
-            strings[i] = 'void'
-
-        strings[start_index] = merged_string
-        strings = list(filter(lambda x: x != 'void', strings))
+        if start_index <= end_index:
+            merged = ''.join(strings[start_index:end_index + 1])
+            strings = strings[:start_index] + [merged] + strings[end_index + 1:]
 
     elif command == 'divide':
         index = int(tokens[1])
         partitions = int(tokens[2])
-        string_to_divide = strings[index]
-        strings[index] = 'void'
+        string_to_divide = strings.pop(index)
 
-        string_length = len(string_to_divide)
-        step = string_length // partitions
-        substr_remainder = step + string_length % partitions
+        part_length = len(string_to_divide) // partitions
+        remainder = len(string_to_divide) % partitions
+
         divided_strings = []
+        start = 0
 
-        if string_length % partitions == 0:
-            for j in range(0, string_length - 1, step):
-                divided_strings.append(string_to_divide[j:j + step])
-        else:
-            for k in range(0, string_length - 1 - substr_remainder, step):
-                divided_strings.append(string_to_divide[k:k + step])
-            divided_strings.append(string_to_divide[-substr_remainder:])
+        for i in range(partitions):
+            current_part_length = part_length
 
-        for l, element in enumerate(divided_strings):
-            strings.insert(index + 1 + l, element)
+            if i == partitions - 1:
+                current_part_length += remainder
 
-        strings = list(filter(lambda x: x != 'void', strings))
+            part = string_to_divide[start:start + current_part_length]
+            divided_strings.append(part)
+            start += current_part_length
+
+        strings[index:index] = divided_strings
 
 result = ''
 for element in strings:
