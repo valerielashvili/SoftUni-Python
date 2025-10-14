@@ -16,6 +16,7 @@ def find_way_out(row, col, grid, visited):
     found_exit = is_exit(row, col, rows, cols)
     max_move = 0
 
+    # Explore neighbour cells in 4 directions
     for d_row, d_col in [(-1,0), (1,0), (0,-1), (0,1)]:
         new_r, new_c = row + d_row, col + d_col
 
