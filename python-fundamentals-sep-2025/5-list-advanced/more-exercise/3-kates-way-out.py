@@ -2,7 +2,7 @@
 
 # An exit is any open space on the maze boundary
 def is_exit(r, c, rows, cols):
-    return (r == 0 or r == rows - 1 or c == 0 or c == cols - 1)
+    return r == 0 or r == rows - 1 or c == 0 or c == cols - 1
 
 # Explore open cells in the maze using recursion
 def find_way_out(row, col, grid, visited):
@@ -40,21 +40,22 @@ def find_way_out(row, col, grid, visited):
 n_rows = int(input())
 maze = []
 wall = False
+start_r, start_c = 0, 0
 
 for _ in range(n_rows):
     maze.append(input())
 
 # Find Kate's starting position
-for i, row in enumerate(maze):
-    if 'k' in row:
-        start_row, start_col = i, row.index('k')
+for i, maze_r in enumerate(maze):
+    if 'k' in maze_r:
+        start_r, start_c = i, maze_r.index('k')
         break
 
 visited_cells = set()
-exit_found, move_count = find_way_out(start_row, start_col, maze, visited_cells)
+is_exit, move_cnt = find_way_out(start_r, start_c, maze, visited_cells)
 
 # Output
-if exit_found:
-    print(f"Kate got out in {move_count} moves")
+if is_exit:
+    print(f"Kate got out in {move_cnt} moves")
 else:
     print("Kate cannot get out")
