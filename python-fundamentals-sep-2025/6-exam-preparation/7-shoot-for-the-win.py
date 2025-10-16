@@ -5,6 +5,8 @@ shot_cnt = 0
 while token != 'End':
     if token.isdigit():
         idx = int(token)
+    else:
+        idx = None
 
     if 0 <= idx < len(targets) and targets[idx] != -1:
         shot_target = targets[idx]
