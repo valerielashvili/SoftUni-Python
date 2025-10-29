@@ -9,4 +9,4 @@ for i in range(0, n_words, 2):
         words[word].append(synonym)
 
 for w, s in words.items():
-    print(f"{w} - " + ", ".join(s))
+    print(f"{w} - {', '.join(s)}")
