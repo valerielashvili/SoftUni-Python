@@ -1,19 +1,14 @@
 from typing import Tuple
 
-def handle_legendary(curr_item: str, leg_items: dict) -> Tuple[dict, bool, str]:
-    leg_items[curr_item] -= 250
+
+def handle_legendary(leg_item: str, leg_items: dict) -> Tuple[dict, bool, str]:
+    leg_names = {'shards': 'Shadowmourne', 'fragments': 'Valanyr', 'motes': 'Dragonwrath'}
+    leg_items[leg_item] -= 250
     leg_obt = True
-    leg_item = ""
+    prnt_result = f"{leg_names[leg_item]} obtained!"
 
-    if curr_item == 'shards':
-        leg_item = 'Shadowmourne'
-    elif curr_item == 'fragments':
-        leg_item = 'Valanyr'
-    elif curr_item == 'motes':
-        leg_item = 'Dragonwrath'
-
-    prnt_result = f"{leg_item} obtained!"
     return leg_items, leg_obt, prnt_result
+
 
 legendary = {'shards': 0, 'fragments': 0, 'motes': 0}
 junk = {}
