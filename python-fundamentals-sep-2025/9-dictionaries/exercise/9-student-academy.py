@@ -1,7 +1,7 @@
 n_lines = int(input())
 students = {}
 
-for n in range(0, n_lines * 2, 2):
+for n in range(n_lines):
     name, grade = input(), float(input())
     grades = students.get(name, [])
     grades.append(grade)
