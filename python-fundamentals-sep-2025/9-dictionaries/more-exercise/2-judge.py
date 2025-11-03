@@ -24,7 +24,7 @@ def add_user(ranking: dict) -> dict:
 
 
 def sort_ranking(ranking: dict) -> dict:
-    """Sort users by scores in descending then by name in ascending order."""
+    """Sort users by scores in descending, then by name in ascending order."""
     return {
         contest: dict(sorted(users.items(), key=lambda item: (-item[1], item[0])))
         for contest, users in ranking.items()
@@ -45,7 +45,7 @@ def format_ranking(ranking: dict) -> str:
 
 def sort_users(users: dict) -> dict:
     """
-    Sort users by total scores in descending then by alphabetical order.
+    Sort users by total scores in descending, then by alphabetical order.
     The sorting is done for the individual user standing.
     """
     return dict(sorted(users.items(), key=lambda item: (-item[1], item[0])))

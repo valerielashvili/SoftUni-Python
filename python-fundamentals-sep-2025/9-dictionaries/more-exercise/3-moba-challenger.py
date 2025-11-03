@@ -30,12 +30,12 @@ def play_duel(name_1: str, name_2: str, players: dict) -> dict:
 
 
 def sort_players(players: dict) -> dict:
-    """Sort players by total skill in descending then by name in ascending order."""
+    """Sort players by total skill in descending, then by name in ascending order."""
     return dict(sorted(players.items(), key=lambda item: (-sum(item[1].values()), item[0])))
 
 
 def sort_positions(roles: dict) -> dict:
-    """Sort positions by skill in descending then by position name in ascending order."""
+    """Sort positions by skill in descending, then by position name in ascending order."""
     return dict(sorted(roles.items(), key=lambda item: (-item[1], item[0])))
 
 

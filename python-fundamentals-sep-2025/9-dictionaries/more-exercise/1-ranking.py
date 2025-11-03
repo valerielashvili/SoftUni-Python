@@ -41,7 +41,7 @@ def find_best_candidate(ranking: dict) -> Tuple[str, int]:
 
 
 def sort_ranking(ranking: dict) -> dict:
-    """Sort user ranking by name and score in descending order."""
+    """Sort user ranking by name, then by score in descending order."""
     sorted_name_score = dict(sorted(ranking.items()))
     for user, major in sorted_name_score.items():
         sorted_by_score = dict(sorted(major.items(), key=lambda item: -item[1]))
