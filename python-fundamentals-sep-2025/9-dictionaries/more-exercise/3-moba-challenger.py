@@ -3,10 +3,10 @@ import re
 
 def add_player(name: str, role: str, power: int, players: dict) -> dict:
     """Add player to the Challenger tier."""
-    if name not in players.keys():
+    if name not in players:
         players[name] = {role: power}
     else:
-        if role not in players[name].keys():
+        if role not in players[name]:
             players[name][role] = power
         else:
             if players[name][role] < power:
@@ -15,26 +15,32 @@ def add_player(name: str, role: str, power: int, players: dict) -> dict:
 
 
 def play_duel(name_1: str, name_2: str, players: dict) -> dict:
-    """Demote a player with the least skills."""
-    if name_1 in players.keys() and name_2 in players.keys():
-        for role in players[name_1].keys():
-            if role in (enemy_roles for enemy_roles in players[name_2].keys()):
-                if sum(players[name_1].values()) < sum(players[name_2].values()):
-                    players.pop(name_1)
-                else:
-                    players.pop(name_2)
+    """Demote a player with the least skills if they share a position."""
+    if name_1 in players and name_2 in players:
+        common_roles = set(players[name_1].keys()) & set(players[name_2].keys())
+        if common_roles:
+            total_1 = sum(players[name_1].values())
+            total_2 = sum(players[name_2].values())
+
+            if total_1 > total_2:
+                players.pop(name_2)
+            elif total_2 > total_1:
+                players.pop(name_1)
     return players
 
 
 def sort_players(players: dict) -> dict:
+    """Sort players by total skill in descending then by name in ascending order."""
     return dict(sorted(players.items(), key=lambda item: (-sum(item[1].values()), item[0])))
 
 
 def sort_positions(roles: dict) -> dict:
+    """Sort positions by skill in descending then by position name in ascending order."""
     return dict(sorted(roles.items(), key=lambda item: (-item[1], item[0])))
 
 
 def format_output(players: dict) -> str:
+    """Format output for each player."""
     output = ""
     for name, roles in players.items():
         output += f"{name}: {sum(roles.values())} skill\n"
@@ -51,7 +57,8 @@ while (line := input()) != 'Season end':
     player, position, skill = tokens[:3]
 
     if skill is not None:
-        players_pool = add_player(player, position, int(skill), players_pool)
+        skill = int(skill)
+        players_pool = add_player(player, position, skill, players_pool)
     else:
         player_1, player_2 = player, position
         players_pool = play_duel(player_1, player_2, players_pool)
