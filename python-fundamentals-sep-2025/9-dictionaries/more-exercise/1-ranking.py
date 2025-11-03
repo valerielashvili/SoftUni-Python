@@ -40,6 +40,15 @@ def find_best_candidate(ranking: dict) -> Tuple[str, int]:
     return name, best_score
 
 
+def sort_ranking(ranking: dict) -> dict:
+    """Sort user ranking by name and score in descending order."""
+    sorted_name_score = dict(sorted(ranking.items()))
+    for user, major in sorted_name_score.items():
+        sorted_by_score = dict(sorted(major.items(), key=lambda item: -item[1]))
+        sorted_name_score[user] = sorted_by_score
+    return sorted_name_score
+
+
 def format_ranking(best_user: str, max_score: int, ranking: dict) -> str:
     """Format user ranking."""
     result = f"Best candidate is {best_user} with total {max_score} points.\nRanking:\n"
@@ -48,15 +57,6 @@ def format_ranking(best_user: str, max_score: int, ranking: dict) -> str:
         for major, score in contest.items():
             result += f"#  {major} -> {score}\n"
     return result
-
-
-def sort_ranking(ranking: dict) -> dict:
-    """Sort user ranking by name and score in descending order."""
-    sorted_name_score = dict(sorted(ranking.items()))
-    for user, major in sorted_name_score.items():
-        sorted_by_score = dict(sorted(major.items(), key=lambda item: -item[1]))
-        sorted_name_score[user] = sorted_by_score
-    return sorted_name_score
 
 
 contest_data = {}
