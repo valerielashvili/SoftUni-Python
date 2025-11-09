@@ -17,12 +17,7 @@ for i in range(len(string)):
         substr, digit = '', ''
 
 for i in range(0, len(strings), 2):
-    strings[i] = strings[i].upper()
-
-    if i + 1 == len(strings):
-        result += strings[i]
-    else:
-        result += strings[i] * strings[i + 1]
+    result += strings[i].upper() * strings[i + 1]
 
 print(f"Unique symbols used: {len(set(result))}")
 print(result)
