@@ -15,4 +15,4 @@ while (string := input()) != 'end of shift':
         total_income += total_price
         print(f"{m.group('customer')}: {m.group('product')} - {total_price:.2f}")
 
-print(f'Total income: {total_income:.2f}')
+print(f"Total income: {total_income:.2f}")
