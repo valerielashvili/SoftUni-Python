@@ -6,10 +6,9 @@ current_sum = 0
 
 while clothes:
     cloth_value = clothes.pop()
+    current_sum += cloth_value
 
-    if current_sum + cloth_value <= rack_capacity:
-        current_sum += cloth_value
-    else:
+    if current_sum > rack_capacity:
         n_racks += 1
         current_sum = cloth_value
 
