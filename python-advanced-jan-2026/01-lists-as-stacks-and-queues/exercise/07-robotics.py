@@ -23,6 +23,7 @@ while products:
         if robot['next_free_time'] <= current_time:
             robot['next_free_time'] = current_time + robot['process_time']
 
+            # If processing goes past midnight wrap current_time back into a 24-hour clock
             t = current_time % (24 * 3600)
             h, m, s = t // 3600, (t % 3600) // 60, t % 60
             print(f"{robot['name']} - {product} [{h:02d}:{m:02d}:{s:02d}]")
