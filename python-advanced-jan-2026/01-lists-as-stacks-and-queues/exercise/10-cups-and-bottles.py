@@ -7,14 +7,14 @@ bottles = ([int(b) for b in input().split()])
 wasted_water = 0
 
 while cups and bottles:
-    last_bottle = bottles.pop()
-    first_cup = cups.popleft()
+    bottle = bottles.pop()
+    cup = cups.popleft()
 
-    if first_cup > last_bottle:
-        first_cup -= last_bottle
-        cups.appendleft(first_cup)
+    if cup > bottle:
+        cup -= bottle
+        cups.appendleft(cup)
     else:
-        wasted_water += last_bottle - first_cup
+        wasted_water += bottle - cup
 
 if not cups:
     print(f"Bottles: {' '.join(map(str, bottles[::-1]))}")
