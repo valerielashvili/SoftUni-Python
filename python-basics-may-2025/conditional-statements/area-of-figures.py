@@ -1,4 +1,3 @@
-import math
 from math import pi
 
 shape_type = input()
