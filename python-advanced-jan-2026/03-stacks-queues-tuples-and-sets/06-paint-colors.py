@@ -1,42 +1,49 @@
 from collections import deque
 
-color_substr = deque(input().split())
-valid_colors = ['red', 'yellow', 'blue']
-secondary_colors = ['orange', 'purple', 'green']
+substrings = deque(input().split())
+
+primary = {"red", "yellow", "blue"}
+secondary = {
+    "orange": {"red", "yellow"},
+    "purple": {"red", "blue"},
+    "green": {"yellow", "blue"}
+}
+
 found_colors = []
 
-while color_substr:
-    if len(color_substr) > 1:
-        left_substr = color_substr.popleft()
-        right_substr = color_substr.pop()
-        test_color = left_substr + '' + right_substr
+while substrings:
+    if len(substrings) == 1:
+        word = substrings.pop()
+        if word in primary or word in secondary:
+            found_colors.append(word)
+        break
+
+    left = substrings.popleft()
+    right = substrings.pop()
+
+    combined = left + right
+    reversed_combined = right + left
+
+    if combined in primary or combined in secondary:
+        found_colors.append(combined)
+    elif reversed_combined in primary or reversed_combined in secondary:
+        found_colors.append(reversed_combined)
     else:
-        test_color = color_substr.pop()
+        left = left[:-1]
+        right = right[:-1]
 
-    if test_color in valid_colors:
-        found_colors.append(test_color)
-        
-    elif test_color in secondary_colors:
+        mid = len(substrings) // 2
+        if left:
+            substrings.insert(mid, left)
+        if right:
+            substrings.insert(mid, right)
 
-        if (test_color == 'orange' and
-            ('red' in found_colors and 'yellow' in found_colors)):
-            found_colors.append(test_color)
-
-        elif (test_color == 'purple' and
-              ('red' in found_colors and 'blue' in found_colors)):
-            found_colors.append(test_color)
-        
-        elif (test_color == 'green' and
-              ('yellow' in found_colors and 'blue' in found_colors)):
-            found_colors.append(test_color)
+result = []
+for color in found_colors:
+    if color in secondary:
+        if secondary[color].issubset(found_colors):
+            result.append(color)
     else:
-        idx = len(color_substr) // 2
-        if len(color_substr) % 2 != 0:
-            idx += 1
-        
-        if left_substr[:-1]:
-            color_substr.insert(idx, left_substr[:-1])
-        if right_substr[:-1]:
-            color_substr.insert(idx + 1, right_substr[:-1])
+        result.append(color)
 
-print(*found_colors)
+print(result)
