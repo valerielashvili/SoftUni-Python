@@ -1,31 +1,28 @@
-rows = int(input())
-matrix = []
-coordinates = []
+def neighbors(x, y, rows, cols):
+    for dr in (-1, 0, 1):
+        for dc in (-1, 0, 1):
+            nr, nc = x + dr, y + dc
+            if 0 <= nr < rows and 0 <= nc < cols:
+                yield nr, nc
 
-for row in range(rows):
+
+size = int(input())
+matrix = []
+
+for row in range(size):
     matrix.append([int(n) for n in input().split()])
 
-coordinates.append([tuple(int(c) for c in pair.split(',')) for pair in input().split()])
+coordinates = [tuple(int(c) for c in pair.split(',')) for pair in input().split()]
 
-for pair in coordinates[0]:
-    row, col = pair
+for row, col in coordinates:
+    if matrix[row][col] <= 0:
+        continue
+
     damage = matrix[row][col]
 
-    bombing_area = [
-        (row, col),
-        (row, col - 1),
-        (row - 1, col - 1),
-        (row - 1, col),
-        (row - 1, col + 1),
-        (row, col + 1),
-        (row + 1, col + 1),
-        (row + 1, col),
-        (row + 1, col - 1)
-    ]
-
     # detonate
-    for r, c in bombing_area:
-        if (0 <= r < rows) and (0 <= c < rows) and not matrix[r][c] <= 0:
+    for r, c in neighbors(row, col, size, size):
+        if matrix[r][c] > 0:
             matrix[r][c] -= damage
 
 print(f"Alive cells: {sum(x > 0 for row in matrix for x in row)}")
