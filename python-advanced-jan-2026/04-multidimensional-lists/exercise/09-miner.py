@@ -16,11 +16,9 @@ def move(direction, mtrx_size, r, c):
     else:
         return last_r, last_c
 
-VALID = {'left', 'right', 'up', 'down'}
-matrix = []
-
 size = int(input())
-commands = [c for c in input().split() if c in VALID]
+commands = [c for c in input().split()]
+matrix = []
 
 for r in range(size):
     matrix.append([c for c in input().split()])
