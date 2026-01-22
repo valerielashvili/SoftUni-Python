@@ -16,15 +16,11 @@ def move(direction, mtrx_size, r, c):
     else:
         return last_r, last_c
 
-size = int(input())
-commands = [
-    c for c in input().split()
-    if c == 'left' or c == 'right'
-    or c == 'up' or c == 'down'
-]
+VALID = {'left', 'right', 'up', 'down'}
 matrix = []
-collected_coal = 0
-game_over = False
+
+size = int(input())
+commands = [c for c in input().split() if c in VALID]
 
 for r in range(size):
     matrix.append([c for c in input().split()])
@@ -43,7 +39,7 @@ for cmd in commands:
         print(f'Game over! ({row}, {col})')
         sys.exit()
 
-coal = sum(col == 'c' for row in matrix for col in row)
+coal = sum(cell == 'c' for r in matrix for cell in r)
 
 if not coal:
     print(f'You collected all coal! ({row}, {col})')
