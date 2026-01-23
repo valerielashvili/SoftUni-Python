@@ -24,7 +24,7 @@ def in_boundary(r, c, lines, cells):
     return 0 <= r < rows and 0 <= c < cols
 
 
-def update_lair(field, lines, cells):
+def update_lair(lines, cells, field):
     # Spread bunnies
     bunnies = [(r, c) for r in range(lines) for c in range(cells) if field[r][c] == 'B']
 
@@ -61,14 +61,14 @@ for cmd in commands:
     # Player escapes
     if not in_boundary(nr, nc, rows, cols):
         lair[pr][pc] = '.'
-        lair = update_lair(lair, rows, cols)
+        lair = update_lair(rows, cols, lair)
         status = "won"
         break
 
     # Player moves into bunny
     if lair[nr][nc] == 'B':
         lair[pr][pc] = '.'
-        lair = update_lair(lair, rows, cols)
+        lair = update_lair(rows, cols, lair)
         pr, pc = nr, nc
         status = "dead"
         break
@@ -79,7 +79,7 @@ for cmd in commands:
     pr, pc = nr, nc
 
     # Bunnies spread
-    lair = update_lair(lair, rows, cols)
+    lair = update_lair(rows, cols, lair)
 
     # Player dies after spread
     if lair[pr][pc] == 'B':
