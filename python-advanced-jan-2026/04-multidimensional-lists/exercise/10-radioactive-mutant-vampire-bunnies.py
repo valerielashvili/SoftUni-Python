@@ -44,9 +44,6 @@ def update_lair(field, lines, cells):
 rows, cols = [int(n) for n in input().split()]
 lair = []
 commands = []
-p_row, p_col = None, None
-last_r, last_c = None, None
-win = None
 
 for row in range(rows):
     lair.append([c for c in input()])
@@ -55,40 +52,41 @@ cmd_str = input()
 for cmd in cmd_str:
     commands.append(cmd)
 
+pr, pc = get_player_position(rows, cols, lair)
+status = None
+
 for cmd in commands:
-    p_row, p_col = get_player_position(rows, cols, lair)
+    nr, nc = move(cmd, pr, pc)
 
-    if p_row >= 0 and p_col >= 0:
-        last_r, last_c = p_row, p_col
+    # Player escapes
+    if not in_boundary(nr, nc, rows, cols):
+        lair[pr][pc] = '.'
+        lair = update_lair(lair, rows, cols)
+        status = "won"
+        break
 
-    p_row, p_col = move(cmd, p_row, p_col)
+    # Player moves into bunny
+    if lair[nr][nc] == 'B':
+        lair[pr][pc] = '.'
+        lair = update_lair(lair, rows, cols)
+        pr, pc = nr, nc
+        status = "dead"
+        break
 
-    if in_boundary(p_row, p_col, rows, cols):
-        if lair[p_row][p_col] == 'B':
-            lair = update_lair(lair, rows, cols)
-            last_r, last_c = p_row, p_col
-            win = False
-            break
-        else:
-            lair[last_r][last_c] = '.'
-            lair[p_row][p_col] = 'P'
-            last_r, last_c = p_row, p_col
-    else:
-        if lair[last_r][last_c] != 'B':
-            lair[last_r][last_c] = '.'
-            lair = update_lair(lair, rows, cols)
-            win = True
-            break
-        else:
-            win = False
-            break
+    # Normal move
+    lair[pr][pc] = '.'
+    lair[nr][nc] = 'P'
+    pr, pc = nr, nc
 
+    # Bunnies spread
     lair = update_lair(lair, rows, cols)
+
+    # Player dies after spread
+    if lair[pr][pc] == 'B':
+        status = "dead"
+        break
 
 for line in lair:
     print(*line, sep='')
 
-if win:
-    print(f"won: {last_r} {last_c}")
-else:
-    print(f"dead: {last_r} {last_c}")
+print(f"{status}: {pr} {pc}")
