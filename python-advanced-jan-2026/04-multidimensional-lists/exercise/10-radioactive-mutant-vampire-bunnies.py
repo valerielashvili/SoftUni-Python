@@ -1,5 +1,5 @@
 def get_player_position(lines, cells, field):
-    # get player's start position
+    # Get player's start position
     r, c = next(
         ((r, c) for r in range(lines) for c in range(cells) if field[r][c] == 'P'),
         (-1, -1)
@@ -25,7 +25,7 @@ def in_boundary(r, c, lines, cells):
 
 
 def update_lair(field, lines, cells):
-    # spread bunnies
+    # Spread bunnies
     bunnies = [(r, c) for r in range(lines) for c in range(cells) if field[r][c] == 'B']
 
     for bunny in bunnies:
