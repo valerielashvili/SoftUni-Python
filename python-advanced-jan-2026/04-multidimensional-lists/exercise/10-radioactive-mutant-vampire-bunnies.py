@@ -7,17 +7,9 @@ def get_player_position(lines, cells, field):
     return r, c
 
 
-def move(direction, pr, pc):
-    nr, nc = pr, pc
-    if direction == 'U':
-        nr -= 1
-    elif direction == 'D':
-        nr += 1
-    elif direction == 'L':
-        nc -= 1
-    elif direction == 'R':
-        nc += 1
-    return nr, nc
+def move(cmd, r, c):
+    dr, dc = DIRS[cmd]
+    return r + dr, c + dc
 
 
 def in_boundary(r, c, lines, cells):
@@ -41,6 +33,12 @@ def update_lair(lines, cells, field):
 
     return field
 
+DIRS = {
+    'U': (-1, 0),
+    'D': (1, 0),
+    'L': (0, -1),
+    'R': (0, 1)
+}
 rows, cols = [int(n) for n in input().split()]
 lair = []
 commands = []
