@@ -6,8 +6,8 @@ def get_knights_positions(rows, field):
     return k_positions
 
 
-def in_boundary(line, col, rows):
-    return 0 <= line < rows and 0 <= col < rows
+def in_boundary(r, c, rows):
+    return 0 <= r < rows and 0 <= c < rows
 
 
 def move_vert(r, c, rows):
