@@ -44,6 +44,7 @@ def shoot(way, r, c, rows, field):
 
     return field, shot_target
 
+
 size = 5
 shooting_range = []
 shot_targets = []

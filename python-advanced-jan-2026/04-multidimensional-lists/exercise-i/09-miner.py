@@ -16,6 +16,7 @@ def move(direction, mtrx_size, r, c):
     else:
         return last_r, last_c
 
+
 size = int(input())
 commands = [c for c in input().split()]
 matrix = []

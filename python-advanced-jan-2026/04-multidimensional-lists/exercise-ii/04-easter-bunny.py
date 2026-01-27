@@ -24,6 +24,7 @@ def scan_direction(r, c, dr, dc, rows, field):
 
     return n_eggs, positions
 
+
 size = int(input())
 matrix = []
 direction = ''

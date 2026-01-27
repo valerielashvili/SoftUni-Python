@@ -39,6 +39,7 @@ def count_hits(pos, rows):
 
     return hits
 
+
 size = int(input())
 board = []
 knights_positions = []

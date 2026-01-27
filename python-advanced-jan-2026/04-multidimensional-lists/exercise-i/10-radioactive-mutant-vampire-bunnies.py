@@ -33,6 +33,7 @@ def update_lair(lines, cells, field):
 
     return field
 
+
 DIRS = {
     'U': (-1, 0),
     'D': (1, 0),

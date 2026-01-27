@@ -20,6 +20,7 @@ def update_field(r, c, field):
     field[r][c] = '*'
     return field
 
+
 size = int(input())
 wonderland = []
 tea_bags = 0
