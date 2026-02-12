@@ -6,12 +6,9 @@ def get_position(lines, cells, field, item):
     return r, c
 
 
-def move(r, c, cmd, lines, cells):
+def move(r, c, cmd):
     dr, dc = DIRS[cmd]
-    if in_boundary(r + dr, c + dc, lines, cells):
-        return r + dr, c + dc
-    else:
-        return r, c
+    return r + dr, c + dc
 
 
 def in_boundary(r, c, lines, cells):
@@ -21,28 +18,27 @@ def in_boundary(r, c, lines, cells):
 def defuse_bomb(defuse_time, r, c, field):
     defuse_state = {
         'skip': False,
-        'defusing': False,
         'defused': False,
-        'exploded': False
+        'exploded': False,
+        'ct_killed': False
     }
 
     if field[r][c] != 'B':
         defuse_time -= 2
-        defuse_state['skip_move'] = True
+        defuse_state['skip'] = True
         return defuse_time, defuse_state
 
     # Defuse bomb
     if field[r][c] == 'B':
-        defuse_state['defusing_bomb'] = True
         defuse_time -= 4
 
         if defuse_time >= 0:
             field[r][c] = 'D'
-            defuse_state['bomb_defused'] = True
+            defuse_state['defused'] = True
             return defuse_time, defuse_state
         else:
             field[r][c] = 'X'
-            defuse_state['bomb_exploded'] = True
+            defuse_state['exploded'] = True
             return defuse_time, defuse_state
 
     return defuse_time, defuse_state
@@ -58,12 +54,11 @@ rows, cols = [int(x) for x in input().split(', ')]
 matrix = []
 time = 16
 defuse_progress = {
-        'skip': False,
-        'defusing': False,
-        'defused': False,
-        'exploded': False
+    'skip': False,
+    'defused': False,
+    'exploded': False,
+    'ct_killed': False
     }
-counter_t_killed = False
 
 for _ in range(rows):
     matrix.append(list(input()))
@@ -76,40 +71,40 @@ while time > 0:
 
     if command == 'defuse':
         time, defuse_progress = defuse_bomb(time, row, col, matrix)
+
         if defuse_progress['skip']:
             continue
-
         if defuse_progress['defused'] or defuse_progress['exploded']:
             break
 
-    nr, nc = move(row, col, command, rows, cols)
+    nr, nc = move(row, col, command)
+    if not in_boundary(nr, nc, rows, cols):
+        nr, nc = row, col
+        time -= 1
+        continue
 
     if matrix[nr][nc] == 'T':
         matrix[nr][nc] = '*'
-        counter_t_killed = True
+        defuse_progress['ct_killed'] = True
         break
 
     row, col = nr, nc
     time -= 1
 
-if time == 0:
-    exploded = True
-    # br, bc = get_position(rows, cols, matrix, 'B')
-    # matrix[br][bc] = 'X'
+if time <= 0 and not defuse_progress['defused'] and not defuse_progress['ct_killed']:
+    defuse_progress['exploded'] = True
 
 if defuse_progress['exploded']:
     print(f'Terrorists win!\n'
           f'Bomb was not defused successfully!')
-    if not defuse_progress['defusing']:
-        time = 0
     print(f'Time needed: {abs(time)} second/s.')
 
-elif defuse_progress['exploded']:
+elif defuse_progress['defused']:
     print(f'Counter-terrorist wins!\n'
           f'Bomb has been defused: {time} second/s remaining.')
 
-elif counter_t_killed:
+elif defuse_progress['ct_killed']:
     print('Terrorists win!')
 
 for row in matrix:
-    print(' '.join(map(str, row)))
+    print(''.join(row))
