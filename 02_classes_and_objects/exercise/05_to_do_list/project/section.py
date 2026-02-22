@@ -28,5 +28,4 @@ class Section:
         result = f"Section {self.name}:\n"
         if self.tasks:
             result += '\n'.join(t.details() for t in self.tasks)
-
         return result
