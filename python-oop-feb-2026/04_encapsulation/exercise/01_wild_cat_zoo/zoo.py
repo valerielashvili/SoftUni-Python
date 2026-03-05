@@ -16,14 +16,12 @@ class Zoo:
         self.workers = []
 
     def add_animal(self, animal, price):
-        if (
-                self.__budget > 0 and
-                len(self.animals) < self.__animal_capacity and
-                len(self.workers) < self.__workers_capacity
-        ):
+        if self.__budget - price > 0 and len(self.animals) < self.__animal_capacity:
             self.animals.append(animal)
             self.__budget -= price
-        elif self.__budget <= 0 < self.__animal_capacity and self.__workers_capacity > 0:
+            return f"{animal.name} the {type(animal).__name__} added to the zoo"
+
+        elif self.__budget - price < 0 and len(self.animals) <= self.__animal_capacity:
             return "Not enough budget"
         else:
             return "Not enough space for animal"
@@ -31,12 +29,12 @@ class Zoo:
     def hire_worker(self, worker: Keeper | Caretaker | Vet):
         if len(self.workers) < self.__workers_capacity:
             self.workers.append(worker)
-            return f"{worker.name} the {type(worker)} hired successfully"
+            return f"{worker.name} the {type(worker).__name__} hired successfully"
         else:
             return "Not enough space for worker"
 
     def fire_worker(self, worker_name):
-        if any(w == worker_name for w in self.workers):
+        if any(w.name == worker_name for w in self.workers):
             filtered_workers = list(filter(lambda w: w.name != worker_name, self.workers))
             self.workers = filtered_workers
             return f"{worker_name} fired successfully"
@@ -69,22 +67,29 @@ class Zoo:
         self.__budget += amount
 
     def animals_status(self):
-        output = ""
-        lions = list(filter(lambda c: type(c) == Lion, self.animals))
-        tigers = list(filter(lambda c: type(c) == Tiger, self.animals))
-        cheetahs = list(filter(lambda c: type(c) == Cheetah, self.animals))
-        output += f"You have {len(self.animals)} animals\n"
+        groups = {
+            f"{cls.__name__}s": [a for a in self.animals if isinstance(a, cls)]
+            for cls in (Lion, Tiger, Cheetah)
+        }
 
-        output += f"----- {len(lions)} Lions:\n"
-        for lion in lions:
-            output += f"{lion.__repr__()}\n"
+        output = f"You have {len(self.animals)} animals"
 
-        output += f"----- {len(tigers)} Tigers:\n"
-        for tiger in tigers:
-            output += f"{tiger.__repr__()}\n"
+        for animal_cls in ('Lions', 'Tigers', 'Cheetahs'):
+            output += f"\n----- {len(groups[animal_cls])} {animal_cls}:\n"
+            output += '\n'.join(a.__repr__() for a in groups[animal_cls])
 
-        output += f"----- {len(cheetahs)} Cheetahs:\n"
-        for cheetah in cheetahs:
-            output += f"{cheetah.__repr__()}\n"
+        return output
+
+    def workers_status(self):
+        groups = {
+            f"{cls.__name__}s": [a for a in self.workers if isinstance(a, cls)]
+            for cls in (Keeper, Caretaker, Vet)
+        }
+
+        output = f"You have {len(self.workers)} workers"
+
+        for worker_cls in ('Keepers', 'Caretakers', 'Vets'):
+            output += f"\n----- {len(groups[worker_cls])} {worker_cls}:\n"
+            output += '\n'.join(w.__repr__() for w in groups[worker_cls])
 
         return output
