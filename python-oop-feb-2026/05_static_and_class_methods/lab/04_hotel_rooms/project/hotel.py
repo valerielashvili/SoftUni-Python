@@ -23,7 +23,7 @@ class Hotel:
 
     def free_room(self, room_number):
         room = next((r for r in self.rooms if r.number == room_number), None)
-        if not room.is_taken:
+        if room.is_taken:
             room_guests = room.guests
             room.free_room()
             self.guests -= room_guests
