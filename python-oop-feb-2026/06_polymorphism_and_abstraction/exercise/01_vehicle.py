@@ -40,6 +40,7 @@ class Truck(Vehicle):
         self.fuel_quantity += fuel * 0.95
 
 
+# Test code
 car = Car(20, 5)
 car.drive(3)
 print(car.fuel_quantity)
