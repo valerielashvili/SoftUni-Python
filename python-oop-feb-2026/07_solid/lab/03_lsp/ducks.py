@@ -1,3 +1,5 @@
+"""Liskov Substitution Principle"""
+
 from abc import ABC
 
 
