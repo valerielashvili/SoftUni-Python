@@ -15,6 +15,9 @@ class FreePerson(Person):
 
 
 class Prisoner(Person):
+    """Liskov Substitution Principle.
+    We don't mix class Prisoner with FreePerson class.
+    """
     PRISON_LOCATION = (3, 3)
 
     def __init__(self):
