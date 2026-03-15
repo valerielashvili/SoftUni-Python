@@ -1,3 +1,5 @@
+"""Workers module respects Dependency Inversion Principle."""
+
 from abc import ABC, abstractmethod
 
 
