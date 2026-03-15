@@ -8,7 +8,7 @@ class custom_range:
         return self
 
     def __next__(self):
-        while self.start <= self.end:
+        if self.start <= self.end:
             i = self.start
             self.start += 1
             return i
