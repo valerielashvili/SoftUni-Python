@@ -1,3 +1,5 @@
+"""Workers module respects Interface Segregation Principle."""
+
 from abc import ABC, abstractmethod
 import time
 
