@@ -1,6 +1,6 @@
 # Strange judge test requirement to have snake_case class name
 class custom_range:
-    def __init__(self, start, end):
+    def __init__(self, start: int, end: int):
         self.start = start
         self.end = end
 
