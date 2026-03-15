@@ -33,6 +33,7 @@ class Manager:
             self.worker.work()
 
 
+# Test code
 worker = Worker()
 manager = Manager()
 manager.set_worker(worker)
