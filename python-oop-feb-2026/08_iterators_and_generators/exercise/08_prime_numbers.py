@@ -1,5 +1,5 @@
 def get_primes(numbers: list):
-    numbers = [x for x in numbers if x > 1 ]
+    numbers = [x for x in numbers if x > 1]
 
     for n in numbers:
         for i in range(2, n):
