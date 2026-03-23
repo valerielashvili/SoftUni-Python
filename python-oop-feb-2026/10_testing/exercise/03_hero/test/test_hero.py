@@ -82,8 +82,8 @@ class HeroTest(TestCase):
 
     def test_str(self):
         expected_str = f"Hero {self.username}: {self.level} lvl\n" \
-                          f"Health: {self.health}\n" \
-                          f"Damage: {self.damage}\n"
+                       f"Health: {self.health}\n" \
+                       f"Damage: {self.damage}\n"
         actual_str = str(self.hero)
         self.assertEqual(expected_str, actual_str)
 
