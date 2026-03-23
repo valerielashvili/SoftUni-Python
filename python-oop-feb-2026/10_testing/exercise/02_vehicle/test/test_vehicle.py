@@ -3,14 +3,24 @@ from project.vehicle import Vehicle
 
 
 class VehicleTests(TestCase):
+    fuel = 65
+    horse_power = 245
+
     def setUp(self):
-        self.vehicle = Vehicle(65, 245)
+        self.vehicle = Vehicle(self.fuel, self.horse_power)
+
+    def test_class_attributes_types(self):
+        self.assertTrue(self.vehicle.DEFAULT_FUEL_CONSUMPTION, float)
+        self.assertTrue(self.vehicle.fuel_consumption, float)
+        self.assertTrue(self.vehicle.fuel, float)
+        self.assertTrue(self.vehicle.capacity, float)
+        self.assertTrue(self.vehicle.horse_power, float)
 
     def test_init(self):
-        self.assertEqual(self.vehicle.fuel, 65)
-        self.assertEqual(self.vehicle.capacity, 65)
-        self.assertEqual(self.vehicle.horse_power, 245)
-        self.assertEqual(self.vehicle.fuel_consumption, 1.25)
+        self.assertEqual(self.vehicle.fuel, self.fuel)
+        self.assertEqual(self.vehicle.capacity, self.fuel)
+        self.assertEqual(self.vehicle.horse_power, self.horse_power)
+        self.assertEqual(self.vehicle.fuel_consumption, self.vehicle.DEFAULT_FUEL_CONSUMPTION)
 
     def test_drive(self):
         with self.assertRaises(Exception) as e:
