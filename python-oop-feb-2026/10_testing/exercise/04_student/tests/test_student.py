@@ -64,6 +64,21 @@ class StudentTests(TestCase):
         self.assertEqual("Notes have been updated", result)
         self.assertEqual(["n1", "n2", "n3"], self.student2.courses["Psychology"])
 
+    def test_add_notes_to_not_existing_course(self):
+        with self.assertRaises(Exception) as e:
+            self.student2.add_notes("Psychology", ["n1", "n2"])
+        self.assertEqual("Cannot add notes. Course not found.", str(e.exception))
+
+    def test_leave_existing_course(self):
+        result = self.student1.leave_course("Python")
+        self.assertEqual("Course has been removed", result)
+        self.assertNotIn("Python", self.student1.courses)
+
+    def test_leave_not_existing_course(self):
+        with self.assertRaises(Exception) as e:
+            self.student2.leave_course("Python")
+        self.assertEqual("Cannot remove course. Course not found.", str(e.exception))
+
 
 if __name__ == '__main__':
     main()
