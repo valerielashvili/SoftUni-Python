@@ -16,7 +16,7 @@ class BaseStore(ABC):
 
     @name.setter
     def name(self, value):
-        if not value or value.strip() == "":
+        if not value.strip():
             raise ValueError("Store name cannot be empty!")
         self.__name = value
 
@@ -26,7 +26,7 @@ class BaseStore(ABC):
     
     @location.setter
     def location(self, value):
-        if len(value) != 3 or value.strip() == "":
+        if len(value.strip()) != 3:
             raise ValueError("Store location must be 3 chars long!")
         self.__location = value
 
@@ -40,10 +40,6 @@ class BaseStore(ABC):
             raise ValueError("Store capacity must be a positive number or 0!")
         self.__capacity = value
 
-    def get_estimated_profit(self):
-        profit = sum(p.price for p in self.products) * 0.10
-        return f"Estimated future profit for {len(self.products)} products is {profit:.2f}"
-
     @property
     @abstractmethod
     def store_type(self):
@@ -52,3 +48,7 @@ class BaseStore(ABC):
     @abstractmethod
     def store_stats(self):
         pass
+
+    def get_estimated_profit(self):
+        profit = sum(p.price for p in self.products) * 0.10
+        return f"Estimated future profit for {len(self.products)} products is {profit:.2f}"

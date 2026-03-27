@@ -1,11 +1,11 @@
 from typing import List
 from itertools import groupby
-from products.base_product import BaseProduct
-from stores.toy_store import ToyStore
-from stores.furniture_store import FurnitureStore
-from stores.base_store import BaseStore
-from products.chair import Chair
-from products.hobby_horse import HobbyHorse
+from project.products.base_product import BaseProduct
+from project.stores.toy_store import ToyStore
+from project.stores.furniture_store import FurnitureStore
+from project.stores.base_store import BaseStore
+from project.products.chair import Chair
+from project.products.hobby_horse import HobbyHorse
 
 
 class FactoryManager:
@@ -41,7 +41,7 @@ class FactoryManager:
         return f"A new {store_type} was successfully registered."
 
     def sell_products_to_store(self, store: BaseStore, *products: BaseProduct):
-        if store.capacity <= len(products):
+        if store.capacity < len(products):
             return f"Store {store.name} has no capacity for this purchase."
         products_filtered = [
             p for p in products
@@ -52,7 +52,11 @@ class FactoryManager:
             store.products += products_filtered
             store.capacity -= len(products_filtered)
             self.income += sum(p.price for p in products_filtered)
-            [self.products.remove(p) for p in products_filtered if p in self.products]
+
+            for p in products_filtered:
+                if p in self.products:
+                    self.products.remove(p)
+
             return f"Store {store.name} successfully purchased {len(products_filtered)} items."
         else:
             return "Products do not match in type. Nothing sold."
@@ -94,12 +98,17 @@ class FactoryManager:
                 key=lambda p: p.model
             )
         }
-        return (
-            f"Factory: {self.name}\n"
-            f"Income: {self.income:.2f}\n"
-            f"***Products Statistics***\n"
-            f"Unsold Products: {len(self.products)}. Total net price: {sum(p.price for p in self.products):.2f}\n" +
-            '\n'.join(f"{model}: {len(products)}" for model, products in product_groups.items()) +
-            f"\n***Partner Stores: {len(self.stores)}***\n" +
-            '\n'.join(s.name for s in sorted(self.stores, key=lambda s: s.name))
-            )
+        stats = [
+            f"Factory: {self.name}",
+            f"Income: {self.income:.2f}",
+            "***Products Statistics***",
+            f"Unsold Products: {len(self.products)}. Total net price: {sum(p.price for p in self.products):.2f}"
+        ]
+        for model, products in product_groups.items():
+            stats.append(f"{model}: {len(products)}")
+
+        stats.append(f"***Partner Stores: {len(self.stores)}***")
+        for s in sorted(self.stores, key=lambda s: s.name):
+            stats.append(s.name)
+
+        return "\n".join(stats).strip()

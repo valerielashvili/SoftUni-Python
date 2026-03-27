@@ -9,4 +9,4 @@ class HobbyHorse(BaseProduct):
         super().__init__(model, price, self.MATERIAL, self.SUB_TYPE)
 
     def discount(self):
-        self.price *= 0.20
+        self.price *= 0.8

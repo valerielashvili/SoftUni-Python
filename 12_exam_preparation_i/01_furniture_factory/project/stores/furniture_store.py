@@ -20,10 +20,13 @@ class FurnitureStore(BaseStore):
                 key=lambda p: p.model
             )
         }
-        return (f"Store: {self.name}, location: {self.location}, available capacity: {self.capacity}\n"
-               f"{self.get_estimated_profit()}\n"
-               f"**Furniture for sale:" +
-                '\n'.join(
-                    f"{m}: {len(prdcts)}pcs, average price: {sum(p.price for p in prdcts) / len(prdcts)}"
-                    for m, prdcts in product_groups.items()
-                ))
+        stats = [
+            f"Store: {self.name}, location: {self.location}, available capacity: {self.capacity}",
+            self.get_estimated_profit(),
+            "**Furniture for sale:"
+        ]
+        for m, prods in product_groups.items():
+            avg_price = sum(p.price for p in prods) / len(prods)
+            stats.append(f"{m}: {len(prods)}pcs, average price: {avg_price:.2f}")
+
+        return "\n".join(stats).strip()
