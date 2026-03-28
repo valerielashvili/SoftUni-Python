@@ -4,7 +4,7 @@ from project.soccer_player import SoccerPlayer
 class TestSoccerPlayer(TestCase):
     def setUp(self):
         self.player1 = SoccerPlayer("Alexander", 28, 45, "Barcelona")
-        self.player2 = SoccerPlayer("Peter", 20, 20, "Barcelona")
+        self.player2 = SoccerPlayer("Michael", 20, 20, "Barcelona")
 
     def test_class_attribute_type(self):
         self.assertIsInstance(SoccerPlayer._VALID_TEAMS, list)
@@ -42,26 +42,38 @@ class TestSoccerPlayer(TestCase):
         )
 
     def test_change_team_method(self):
-        with self.assertRaises(ValueError) as e:
-            self.player1.change_team("Real Gamadrid")
-        self.assertEqual("Invalid team name!", str(e.exception))
+        result = self.player1.change_team("Real Gamadrid")
+        self.assertEqual(result, "Invalid team name!")
 
         team_changed = self.player1.change_team("Manchester United")
-        self.assertEqual(team_changed, "Manchester United")
+        self.assertEqual(team_changed, "Team successfully changed!")
 
     def test_add_new_achievement(self):
-        self.player1.add_new_achievement("World Cup")
-        self.assertEqual(self.player1.achievements["World Cup"], 0)
-        self.player1.add_new_achievement("World Cup")
-        self.assertEqual(self.player1.achievements["World Cup"], 1)
+        achievement_name = "World Cup"
+
+        # First call adds an achievement
+        self.player1.add_new_achievement(achievement_name)
+
+        # Second increments
+        result = self.player1.add_new_achievement(achievement_name)
+        self.assertEqual(
+            result,
+            f"{achievement_name} has been successfully added to the achievements collection!"
+        )
+        self.assertEqual(self.player1.achievements[achievement_name], 2)
 
     def test_less_than_magic_method(self):
-        self.assertLess(
-            self.player2 < self.player1,
-        f"{self.player2.name} is a top goal scorer! S/he scored more than {self.player1.name}."
+        result = self.player1.__lt__(self.player2)
+        self.assertEqual(
+            result,
+            f"{self.player1.name} is a better goal scorer than {self.player2.name}."
+        )
+        result = self.player2.__lt__(self.player1)
+        self.assertEqual(
+            result,
+            f"{self.player1.name} is a top goal scorer! S/he scored more than {self.player2.name}."
         )
 
-        self.assertLess(
-            self.player1 < self.player2,
-        f"{self.player1.name} is a better goal scorer than {self.player2.name}."
-        )
+
+if __name__ == "__main__":
+    main()
