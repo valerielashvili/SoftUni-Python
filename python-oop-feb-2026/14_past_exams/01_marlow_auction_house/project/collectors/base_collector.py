@@ -56,10 +56,12 @@ class BaseCollector(ABC):
         return False
 
     def __str__(self):
+        artifacts_sorted = sorted(self.purchased_artifacts, key=lambda a: a.name, reverse=True)
+
         if self.purchased_artifacts:
-            artifact_names = ", ".join(sorted(self.purchased_artifacts, key=lambda a: -a.name))
+            artifact_names = ", ".join(a.name for a in artifacts_sorted)
         else:
             artifact_names = "none"
 
-        return (f"Collector name: {self.name}; Money available: {self.available_money}; "
+        return (f"Collector name: {self.name}; Money available: {self.available_money:.2f}; "
                 f"Space available: {self.available_space}; Artifacts: {artifact_names}")
