@@ -16,6 +16,8 @@ class LeafPlant(BasePlant):
     def size(self, value: str):
         if value not in self.VALID_SIZES:
             raise ValueError("Size must be a valid one!")
+        self.__size = value
 
     def plant_details(self):
-        return f"Leaf Plant: {self.name}, Price: {self.price}, Watering: {self.water_needed}ml, Size: {self.size}"
+        return (f"Leaf Plant: {self.name}, Price: {self.price:.2f}, "
+                f"Watering: {self.water_needed}ml, Size: {self.size}")

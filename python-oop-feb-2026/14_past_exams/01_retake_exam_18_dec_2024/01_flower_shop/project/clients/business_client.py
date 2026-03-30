@@ -7,4 +7,4 @@ class BusinessClient(BaseClient):
 
     def update_discount(self):
         if self.total_orders >= 2:
-            self.discount = 0.10
+            self.discount = 10.0

@@ -17,7 +17,6 @@ class FlowerShopManager:
         "BusinessClient": BusinessClient,
         "RegularClient": RegularClient
     }
-    ORDERS_TOTAL = 0
 
     def __init__(self):
         self.income: float = 0.0
@@ -59,23 +58,34 @@ class FlowerShopManager:
         if not client:
             raise ValueError("Client not found!")
 
-        plants = list(filter(lambda p: p.name == plant_name, self.plants))
+        plants = [p for p in self.plants if p.name == plant_name]
+
         if not plants:
             raise ValueError("Plants not found!")
 
         if len(plants) < plant_quantity:
             return "Not enough plant quantity."
 
-        order_amount = 0
-        for plant in plants:
-            final_price = plant.price - plant.price * client.discount
-            self.income += final_price
-            order_amount += final_price
-            client.update_total_orders()
-            client.update_discount()
+        selected_plants = plants[:plant_quantity]
+
+        discount = client.discount / 100
+
+        order_amount = sum(
+            p.price * (1 - discount)
+            for p in selected_plants
+        )
+
+        # Remove plants
+        for plant in selected_plants:
             self.plants.remove(plant)
 
-        self.ORDERS_TOTAL += order_amount
+        # Update income
+        self.income += order_amount
+
+        # Update client (ONCE per order)
+        client.update_total_orders()
+        client.update_discount()
+
         return f"{plant_quantity}pcs. of {plant_name} plant sold for {order_amount:.2f}"
 
     def remove_plant(self, plant_name: str):
@@ -99,15 +109,16 @@ class FlowerShopManager:
         flower_groups = dict(sorted(groups.items(), key=lambda p: (-p[1], p[0])))
 
         clients_sorted = sorted(self.clients, key=lambda c: (-c.total_orders, c.phone_number))
+        total_orders = sum(c.total_orders for c in self.clients)
 
         report = [
             "~Flower Shop Report~",
             f"Income: {self.income:.2f}",
-            f"Count of orders: {self.ORDERS_TOTAL}",
-            f"~~Unsold plants: {len(plants_sorted)}~~",
-            '\n'.join(f"{name}: {cnt}" for name, cnt in flower_groups.items()),
-            f"~~Clients number: {len(clients_sorted)}~~",
-            '\n'.join(c.client_details() for c in clients_sorted)
+            f"Count of orders: {total_orders}",
+            f"~~Unsold plants: {len(plants_sorted)}~~"
         ]
+        report.extend(f"{name}: {cnt}" for name, cnt in flower_groups.items())
+        report.append(f"~~Clients number: {len(clients_sorted)}~~")
+        report.extend(c.client_details() for c in clients_sorted)
 
         return '\n'.join(report)
