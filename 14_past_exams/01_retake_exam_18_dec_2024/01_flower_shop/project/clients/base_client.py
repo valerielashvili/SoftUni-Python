@@ -1,4 +1,3 @@
-import math
 from abc import ABC, abstractmethod
 
 
@@ -15,7 +14,7 @@ class BaseClient(ABC):
 
     @name.setter
     def name(self, value: str):
-        if not value.strip() or len(value.strip()) < 2:
+        if len(value.strip()) < 2:
             raise ValueError("Name must be at least two characters long!")
         self.__name = value
 
@@ -38,4 +37,4 @@ class BaseClient(ABC):
 
     def client_details(self):
         return (f"Client: {self.name}, Phone number: {self.phone_number}, "
-                f"Orders count: {self.total_orders}, Discount: {math.floor(self.discount)}%")
+                f"Orders count: {self.total_orders}, Discount: {int(self.discount)}%")
