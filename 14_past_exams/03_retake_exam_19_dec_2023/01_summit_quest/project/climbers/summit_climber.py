@@ -6,18 +6,12 @@ class SummitClimber(BaseClimber):
     MINIMUM_STRENGTH = 75
 
     def __init__(self, name: str):
-        super().__init__(name, 150)
+        super().__init__(name, strength=150)
 
     def can_climb(self):
-        if self.strength >= self.MINIMUM_STRENGTH:
-            return True
-        else:
-            return False
+        return self.strength >= self.MINIMUM_STRENGTH
 
     def climb(self, peak: BasePeak):
-        if peak.difficulty_level == "Extreme":
-            self.strength -= 30 * 2.5
-        elif peak.difficulty_level == "Advanced":
-            self.strength -= 30 * 1.3
-
+        difficulty_multiplier = 1.3 if peak.difficulty_level == "Advanced" else 2.5
+        self.strength -= 30.0 * difficulty_multiplier
         self.conquered_peaks.append(peak.name)

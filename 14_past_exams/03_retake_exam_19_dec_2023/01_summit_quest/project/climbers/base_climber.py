@@ -41,8 +41,6 @@ class BaseClimber(ABC):
         self.strength += 15
 
     def __str__(self):
-        climber_info = (f"{self.__class__.__name__}: /// Climber name: {self.name} * "
-                        f"Left strength: {self.strength:.1f} * Conquered peaks:")
-        conquered_peaks = ', '.join(self.conquered_peaks)
-
-        return climber_info + conquered_peaks + " ///"
+        conquered_peaks = sorted(self.conquered_peaks)
+        return (f"{type(self).__name__}: /// Climber name: {self.name} "
+                f"* Left strength: {self.strength:.1f} * Conquered peaks: {', '.join(conquered_peaks)} ///")
