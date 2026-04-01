@@ -5,7 +5,7 @@ class BasePeak(ABC):
     def __init__(self, name: str, elevation: int):
         self.name = name
         self.elevation = elevation
-        self.difficulty_level = None
+        self.difficulty_level = self.calculate_difficulty_level()
 
     @property
     def name(self):
@@ -13,7 +13,7 @@ class BasePeak(ABC):
 
     @name.setter
     def name(self, value: str):
-        if value.strip() < 2:
+        if len(value.strip()) < 2:
             raise ValueError("Peak name cannot be less than 2 symbols!")
         self.__name = value
 
@@ -26,14 +26,6 @@ class BasePeak(ABC):
         if value < 1500:
             raise ValueError("Peak elevation cannot be below 1500m.")
         self.__elevation = value
-
-    @property
-    def difficulty_level(self):
-        return self.__difficulty_level
-
-    @difficulty_level.setter
-    def difficulty_level(self, value):
-        self.__difficulty_level = self.calculate_difficulty_level()
 
     @abstractmethod
     def get_recommended_gear(self):
