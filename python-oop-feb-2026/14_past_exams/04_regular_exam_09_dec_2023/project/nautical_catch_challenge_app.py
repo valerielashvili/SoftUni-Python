@@ -56,7 +56,10 @@ class NauticalCatchChallengeApp:
             return f"{diver_name} will not be allowed to dive, due to health issues."
 
         if diver.oxygen_level < fish.time_to_catch:
+            diver.miss(fish.time_to_catch)
+            self.__check_oxygen_level(diver)
             return f"{diver_name} missed a good {fish_name}."
+
         elif diver.oxygen_level == fish.time_to_catch:
 
             if is_lucky:
@@ -76,7 +79,32 @@ class NauticalCatchChallengeApp:
 
             return f"{diver_name} hits a {fish.points}pt. {fish_name}."
 
-    #Implement health_recovery()
+    def health_recovery(self):
+        cnt = 0
+        for diver in self.divers:
+            if diver.has_health_issue:
+                diver.has_health_issue = False
+                diver.renew_oxy()
+                cnt += 1
+
+        return f"Divers recovered: {cnt}"
+
+    def diver_catch_report(self, diver_name: str):
+        diver = self._get_diver(diver_name)
+        if diver:
+            report = f"**{diver_name} Catch Report**\n"
+            report += f"\n".join(f.fish_details() for f in diver.catch)
+
+            return report
+
+    def competition_statistics(self):
+        divers_sorted = sorted(self.divers, key=lambda d: (-d.competition_points, -len(d.catch), d.name))
+        selected_divers = [d for d in divers_sorted if not d.has_health_issue]
+
+        stats = f"**Nautical Catch Challenge Statistics**\n"
+        stats += f"\n".join(str(d) for d in selected_divers)
+
+        return stats
 
     def _get_diver(self, diver_name: str) -> BaseDiver | None:
         return next((d for d in self.divers if d.name == diver_name), None)
