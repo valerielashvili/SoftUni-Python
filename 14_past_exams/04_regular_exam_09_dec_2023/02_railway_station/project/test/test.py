@@ -60,7 +60,16 @@ class TestRailwayStation(TestCase):
         self.assertTrue(self.station.train_has_left(train))
         self.assertEqual(self.station.departure_trains, deque())
 
-        self.assertFalse(self.station.train_has_left("B"))
+    def test_train_has_left_wrong_order_does_not_modify_queue(self):
+        self.station.new_arrival_on_board("A")
+        self.station.train_has_arrived("A")
+
+        # Attempt to remove wrong train
+        result = self.station.train_has_left("B")
+
+        self.assertFalse(result)
+        self.assertEqual(len(self.station.departure_trains), 1)
+        self.assertEqual(self.station.departure_trains[0], "A")
 
 
 if __name__ == '__main__':
